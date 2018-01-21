@@ -1,14 +1,43 @@
 <!doctype html>
 <html ng-app="app" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Angular App</title>
-  <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <base href="/">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular App</title>
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/">
 </head>
-<body>
-  <app></app>
+
+<body ng-controller="AppCtrl as parent">
+	
+    <div class="pure-g employee-hirarchy">
+        <div class="pure-u-4-24 left-bar">
+            <div class="pure-u-1 image-bar">
+                <img src="./img/avatar.png" height="150px" width="150px" style="border-radius: 50%;" />
+            </div>
+            <div class="pure-u-1 user-mail">
+                dev-admin@rentmojo.com
+            </div>
+
+            <div class="tab">
+                <button class="tablinks">My Team</button>
+                <button class="tablinks">Designations</button>
+            </div>
+            <div class="tab">
+                <button class="tablinks">Teams</button>
+                <button class="tablinks">Logout <span class="glyphicon glyphicon-lock pull-right"></span></button>
+            </div>
+        </div>
+        <div class="pure-u-20-24 right-window">
+            <div class="pure-u-1 title-bar">My Team</div>
+            <div id="domTree">
+        	</div>
+
+        </div>
+    </div>
 </body>
+
 </html>
