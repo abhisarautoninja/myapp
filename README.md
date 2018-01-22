@@ -26,7 +26,7 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## JSON Guidelines -:
 
-### Each employee detail must contain unique "id".
+### Each employee detail object must have "id" key (which must be unique) & "children" key (which must be [ ] in case no children exists).
 
 * "id" - **Compulsary field**
     * **Must be Unique for each employee**
