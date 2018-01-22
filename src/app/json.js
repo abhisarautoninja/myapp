@@ -151,7 +151,13 @@ export default [{
             "name": "Ibrahim Ganapuli",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
-            "children": []
+            "children": [{
+                "id": "e15421",
+                "name": "Wasim Akram",
+                "teamName": "Tech",
+                "designation": "Engg.(access 1111)",
+                "children": []
+            }]
         }, {
             "id": "e1543",
             "name": "Maharaj Kumar",

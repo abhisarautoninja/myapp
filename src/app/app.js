@@ -5,7 +5,6 @@ import * as utils from './domRenderer.js';
 
 const MODULE_NAME = 'app';
 
-
 angular.module(MODULE_NAME, [])
     .controller('AppCtrl', function($scope, $compile, $element) {
 
@@ -54,42 +53,12 @@ angular.module(MODULE_NAME, [])
             return el;
         }
 
-        vm.generateNode = function(object, level, node) {
-            var div = utils.masterDiv(level);
-            var overflowFlag = false;
-            if (object.length > 4) {
-
-                overflowFlag = true;
-
-                this.overflowRecord[level] = {};
-                this.overflowRecord[level].data = node;
-                this.overflowRecord[level].displayRange = { start: 0, end: 3 };
-                this.overflowRecord[level].memoryNode = null;
-                console.log(this.overflowRecord);
-                var arrowRight = utils.arrowRight(level);
-                var arrowLeft = utils.arrowLeft(level);
-
-                angular.element(arrowRight).bind("click", function(event) {
-                    vm.showRight(event);
-                });
-
-                angular.element(arrowLeft).bind("click", function(event) {
-                    vm.showLeft(event);
-                });
-
-                div.append(arrowRight).append(arrowLeft);
-
-                object = object.filter(function(item, key) {
-                    if (key <= 3) return 1;
-                    else return 0;
-                })
-
-            }
+        vm.renderDom = function(object, div, level) {
             for (var i = 0; i < object.length; i++) {
 
                 var id = object[i].id;
                 var wrap = vm.wrap(id);
-                var team = utils.team(id, object[i].teamName);
+                var team = utils.team(id, object[i].teamName, object[i].immediateEmployeeCount);
                 var name = utils.name(id, object[i].name);
                 var designation = utils.designation(id, object[i].designation);
                 var infoRow = utils.infoRow(id);
@@ -127,7 +96,6 @@ angular.module(MODULE_NAME, [])
                             ))($scope));
 
             }
-
             var hr = angular
                 .element('<hr/>')
                 .attr('id', 'level' + level);
@@ -135,6 +103,46 @@ angular.module(MODULE_NAME, [])
             angular
                 .element(document.querySelector('#domTree'))
                 .append(hr);
+        }
+
+
+        vm.generateNode = function(object, level, node) {
+            var div = utils.masterDiv(level);
+            var overflowFlag = false;
+            if (object.length > 4) {
+
+                overflowFlag = true;
+
+                this.overflowRecord[level] = {
+                    'data': node,
+                    'displayRange': {
+                        'start': 0,
+                        'end': 3
+                    },
+                    'memoryNode': null
+                };
+
+                var arrowRight = utils.arrowRight(level);
+                var arrowLeft = utils.arrowLeft(level);
+
+                angular.element(arrowRight).bind("click", function(event) {
+                    vm.showRight(event);
+                });
+
+                angular.element(arrowLeft).bind("click", function(event) {
+                    vm.showLeft(event);
+                });
+
+                div.append(arrowRight).append(arrowLeft);
+
+                object = object.filter(function(item, key) {
+                    if (key <= 3) return 1;
+                    else return 0;
+                })
+
+            }
+            vm.renderDom(object, div, level);
+
         }
 
         addLevel(vm.json, 0, vm.maxDepth);
@@ -242,7 +250,7 @@ angular.module(MODULE_NAME, [])
                     angular.element(document.querySelector('#' + event.target.id))
                         .append(angular.element('<div/>').attr({ 'class': 'arrow-down', 'id': event.target.id }))
                         .css('border', '2px solid #3579DC');
-                    if(vm.node.level in this.overflowRecord){
+                    if (vm.node.level in this.overflowRecord) {
                         this.overflowRecord[vm.node.level].memoryNode = event.target.id;
                     }
                     vm.generateNode(vm.node.children, vm.node.level + 1, vm.node);
@@ -291,6 +299,9 @@ angular.module(MODULE_NAME, [])
             var memoryNode = this.overflowRecord[level].memoryNode != null ? this.overflowRecord[level].memoryNode : vm.checkForExpandedNode(level);
 
             if (this.overflowRecord[level].displayRange.end == this.overflowRecord[level].data.children.length - 1) return;
+
+            angular.element(document.querySelector('.appx#level' + level + ' > .arrow-left')).removeClass('arrow-disable');
+
             var div = angular.element(document.querySelector('#level' + level));
             var nextStart = null;
             var nextEnd = null;
@@ -318,7 +329,7 @@ angular.module(MODULE_NAME, [])
 
                 var id = object[i].id;
                 var wrap = vm.wrap(id);
-                var team = utils.team(id, object[i].teamName);
+                var team = utils.team(id, object[i].teamName, object[i].immediateEmployeeCount);
                 var name = utils.name(id, object[i].name);
                 var designation = utils.designation(id, object[i].designation);
                 var infoRow = utils.infoRow(id);
@@ -369,7 +380,7 @@ angular.module(MODULE_NAME, [])
                 .css('border', '2px solid #3579DC');
 
             if (this.overflowRecord[level].displayRange.end == this.overflowRecord[level].data.children.length - 1) {
-                // angular.element(document.querySelector('.arrow-right#level'+level).css('disabled',true));
+                angular.element(document.querySelector('.appx#level' + level + ' > .arrow-right')).addClass('arrow-disable');
             }
 
         };
@@ -385,6 +396,9 @@ angular.module(MODULE_NAME, [])
             // insert nodes
             var level = event.target.id;
             if (this.overflowRecord[level].displayRange.start == 0) return;
+
+            angular.element(document.querySelector('.appx#level' + level + ' > .arrow-right')).removeClass('arrow-disable');
+
             var div = angular.element(document.querySelector('#level' + level));
             var prevStart = null;
             var prevEnd = null;
@@ -412,7 +426,7 @@ angular.module(MODULE_NAME, [])
 
                 var id = object[i].id;
                 var wrap = vm.wrap(id);
-                var team = utils.team(id, object[i].teamName);
+                var team = utils.team(id, object[i].teamName, object[i].immediateEmployeeCount);
                 var name = utils.name(id, object[i].name);
                 var designation = utils.designation(id, object[i].designation);
                 var infoRow = utils.infoRow(id);
@@ -457,6 +471,10 @@ angular.module(MODULE_NAME, [])
                 }
 
             }
+            //disable arrow if starting
+            if (this.overflowRecord[level].displayRange.start == 0) {
+                angular.element(document.querySelector('.appx#level' + level + ' > .arrow-left')).addClass('arrow-disable');
+            }
 
             //add down arrow to the old parent node
             angular.element(document.querySelector('#' + this.overflowRecord[level].memoryNode))
@@ -464,89 +482,6 @@ angular.module(MODULE_NAME, [])
                 .css('border', '2px solid #3579DC');
 
         };
-
-
-
-
-
-
-
-        ///////////////
-
-        // var timeline = document.querySelector(".timeline ol"),
-        //     elH = document.querySelectorAll(".timeline li > div"),
-        //     arrows = document.querySelectorAll(".timeline .arrows .arrow"),
-        //     arrowPrev = document.querySelector(".timeline .arrows .arrow__prev"),
-        //     arrowNext = document.querySelector(".timeline .arrows .arrow__next"),
-        //     firstItem = document.querySelector(".timeline li:first-child"),
-        //     lastItem = document.querySelector(".timeline li:last-child"),
-        //     xScrolling = 280,
-        //     disabledClass = "disabled";
-
-        // function init() {
-        //     animateTl(xScrolling, arrows, timeline);
-        // }
-
-        // function animateTl(scrolling, el, tl) {
-        //     let counter = 0;
-        //     for (let i = 0; i < el.length; i++) {
-        //         el[i].addEventListener("click", function() {
-        //             if (!arrowPrev.disabled) {
-        //                 arrowPrev.disabled = true;
-        //             }
-
-        //             if (!arrowNext.disabled) {
-        //                 arrowNext.disabled = true;
-        //             }
-        //             const sign = (this.classList.contains("arrow__prev")) ? "" : "-";
-        //             if (counter === 0) {
-        //                 tl.style.transform = `translateX(-${scrolling}px)`;
-        //             } else {
-        //                 const tlStyle = getComputedStyle(tl);
-        //                 // add more browser prefixes if needed here
-        //                 const tlTransform = tlStyle.getPropertyValue("-webkit-transform") || tlStyle.getPropertyValue("transform");
-        //                 const values = parseInt(tlTransform.split(",")[4]) + parseInt(`${sign}${scrolling}`);
-        //                 tl.style.transform = `translateX(${values}px)`;
-        //             }
-        //             counter++;
-
-        //         });
-        //     }
-        //     for (let i = 0; i < el.length; i++) {
-        //         el[i].addEventListener("click", function() {
-        //             setTimeout(() => {
-        //                 isElementInViewport(firstItem) ? setBtnState(arrowPrev) : setBtnState(arrowPrev, false);
-        //                 isElementInViewport(lastItem) ? setBtnState(arrowNext) : setBtnState(arrowNext, false);
-        //             }, 1100);
-        //         });
-        //     }
-
-        // }
-
-        // function isElementInViewport(el) {
-        //     const rect = el.getBoundingClientRect();
-        //     return (
-        //         rect.top >= 0 &&
-        //         rect.left >= 0 &&
-        //         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        //         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        //     );
-        // }
-
-        // function setBtnState(el, flag = true) {
-        //     if (flag) {
-        //         el.classList.add(disabledClass);
-        //     } else {
-        //         if (el.classList.contains(disabledClass)) {
-        //             el.classList.remove(disabledClass);
-        //         }
-        //         el.disabled = false;
-        //     }
-        // }
-
-        // window.addEventListener("load", init);
-
-        ///////////
 
     });
 

@@ -3,8 +3,12 @@ export function masterDiv(level) {
     return el;
 }
 
-export function team(id, html) {
-    var el = angular.element('<div/>').attr({ 'class': 'header-bar', 'id': id }).html(html);
+export function team(id, html, immediateEmployeeCount) {
+    if(immediateEmployeeCount == 0 || immediateEmployeeCount == undefined){  
+        var el = angular.element('<div/>').attr({ 'class': 'header-bar header-bar-disable', 'id': id }).html(html);
+    }else {
+        var el = angular.element('<div/>').attr({ 'class': 'header-bar', 'id': id }).html(html);
+    }
     return el;
 }
 
@@ -69,7 +73,7 @@ export function arrowRight(level) {
 }
 
 export function arrowLeft(level) {
-    var el = angular.element('<div/>').attr({ 'class': 'arrow-left', 'id': level }).html('&#x21E0;')
+    var el = angular.element('<div/>').attr({ 'class': 'arrow-left arrow-disable', 'id': level }).html('&#x21E0;')
     return el;
 }
 
