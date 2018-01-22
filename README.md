@@ -40,7 +40,7 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ### Sample data  
 ```
-[{
+export default [{
     "id": "e1",
     "name": "Dyal Joshi",
     "teamName": "Tech",
@@ -159,7 +159,18 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
         "teamName": "Tech",
         "designation": "Engg.(access 15)",
         "children": []
-    }]
+    }, {
+        "id": "e18",
+        "name": "Dayal Kashyap",
+        "teamName": "Tech",
+        "designation": "Engg.(access 15)",
+        "children": [{
+            "id": "e181",
+            "name": "Ruchi Kata",
+            "teamName": "Tech",
+            "designation": "Engg.(access 1111)",
+            "children": []
+        }]
     }, {
         "id": "e19",
         "name": "Prerna Mishra",
@@ -198,6 +209,18 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
         }, {
             "id": "e194",
             "name": "Aadil Prasad",
+            "teamName": "Tech",
+            "designation": "Engg.(access 1111)",
+            "children": []
+        }, {
+            "id": "e195",
+            "name": "Dhiraj Khan",
+            "teamName": "Tech",
+            "designation": "Engg.(access 111)",
+            "children": []
+        }, {
+            "id": "e196",
+            "name": "Deep Ram",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
             "children": []
@@ -281,6 +304,6 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
             "children": []
         }]
     }]
-}]
+}];
 ```
 
