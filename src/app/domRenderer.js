@@ -1,5 +1,5 @@
 export function masterDiv(level) {
-    var el = angular.element('<div/>').attr({ 'class': 'appx pure-g pure-u-1', 'id': 'level' + level });
+    var el = angular.element('<section/>').attr({ 'class': 'appx pure-g pure-u-1', 'id': 'level' + level });
     return el;
 }
 
@@ -60,6 +60,16 @@ export function arrowUp(id) {
 
 export function arrowDown(id) {
     var el = angular.element('<div/>').attr({ 'class': 'arrow-down', 'id': id })
+    return el;
+}
+
+export function arrowRight(level) {
+    var el = angular.element('<div/>').attr({ 'class': 'arrow-right', 'id': level }).html('&#x21E2;')
+    return el;
+}
+
+export function arrowLeft(level) {
+    var el = angular.element('<div/>').attr({ 'class': 'arrow-left', 'id': level }).html('&#x21E0;')
     return el;
 }
 
