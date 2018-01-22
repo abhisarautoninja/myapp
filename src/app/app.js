@@ -9,22 +9,15 @@ angular.module(MODULE_NAME, [])
     .controller('AppCtrl', function($scope, $compile, $element) {
 
         var vm = this;
-        var state = {
-            items: ['lorem', 'ipsum', 'dolor'],
-        }
         vm.overflowRecord = [];
         vm.json = json;
-        vm.maxDepth = 0;
 
-        function addLevel(obj, depth, maxDepth) {
+        function addLevel(obj, depth) {
             if (obj == null) return;
             if (obj.length >= 0) {
                 obj.forEach(function(d) {
                     d.level = depth;
-                    if (depth > maxDepth) {
-                        maxDepth = depth;
-                    }
-                    addLevel(d.children, depth + 1, maxDepth);
+                    addLevel(d.children, depth + 1);
                 });
             }
 
@@ -53,7 +46,7 @@ angular.module(MODULE_NAME, [])
             return el;
         }
 
-        vm.renderDom = function(object, div, level) {
+        vm.renderDom = function(object, div, level, freshFlag) {
             for (var i = 0; i < object.length; i++) {
 
                 var id = object[i].id;
@@ -82,27 +75,36 @@ angular.module(MODULE_NAME, [])
                         .append(immediateImg)
                         .append(immediateEmployeeCount));
 
-                angular
-                    .element(document.querySelector('#domTree'))
-                    .append(
-                        $compile(
-                            div.append(
+                var superElement = null;
+
+                if (freshFlag) {
+                    angular
+                        .element(document.querySelector('#domTree'))
+                        .append(
+                            $compile(
+                                div.append(
+                                    wrap
+                                    .append(arrowUp)
+                                    .append(team)
+                                    .append(name)
+                                    .append(designation)
+                                    .append(infoRow)
+                                ))($scope));
+                } else {
+                    div
+                        .append(
+                            $compile(
                                 wrap
                                 .append(arrowUp)
                                 .append(team)
                                 .append(name)
                                 .append(designation)
                                 .append(infoRow)
-                            ))($scope));
-
+                            )($scope));
+                    superElement = div;
+                }
             }
-            var hr = angular
-                .element('<hr/>')
-                .attr('id', 'level' + level);
 
-            angular
-                .element(document.querySelector('#domTree'))
-                .append(hr);
         }
 
 
@@ -126,11 +128,11 @@ angular.module(MODULE_NAME, [])
                 var arrowLeft = utils.arrowLeft(level);
 
                 angular.element(arrowRight).bind("click", function(event) {
-                    vm.showRight(event);
+                    vm.showRightNodes(event);
                 });
 
                 angular.element(arrowLeft).bind("click", function(event) {
-                    vm.showLeft(event);
+                    vm.showLeftNodes(event);
                 });
 
                 div.append(arrowRight).append(arrowLeft);
@@ -141,11 +143,19 @@ angular.module(MODULE_NAME, [])
                 })
 
             }
-            vm.renderDom(object, div, level);
+            vm.renderDom(object, div, level, true);
+
+            var hr = angular
+                .element('<hr/>')
+                .attr('id', 'level' + level);
+
+            angular
+                .element(document.querySelector('#domTree'))
+                .append(hr);
 
         }
 
-        addLevel(vm.json, 0, vm.maxDepth);
+        addLevel(vm.json, 0);
         addEmployeeSum(vm.json);
         vm.generateNode(vm.json, 0, null);
 
@@ -214,23 +224,23 @@ angular.module(MODULE_NAME, [])
         }
 
         vm.modifyTree = function(event) {
-            vm.node = [];
+            var node = [];
             var i = 0;
 
-            while (vm.node.length == 0) {
-                vm.traverseTree(vm.json[i], 0, event.target.id, vm.node);
+            while (node.length == 0) {
+                vm.traverseTree(vm.json[i], 0, event.target.id, node);
                 i++;
             }
 
-            vm.node = vm.node[0];
+            node = node[0];
 
-            if (vm.checkIfOpenNode(vm.node)) {
+            if (vm.checkIfOpenNode(node)) {
                 return false;
             } else {
                 vm.sameNodeIdArray = [];
-                if (vm.node.children.length > 0) {
+                if (node.children.length > 0) {
 
-                    vm.getAllSameLevelNodes(vm.json, vm.node.level, vm.sameNodeIdArray);
+                    vm.getAllSameLevelNodes(vm.json, node.level, vm.sameNodeIdArray);
 
                     for (var i = vm.sameNodeIdArray.length - 1; i >= 0; i--) {
                         if (vm.sameNodeIdArray[i] != undefined) {
@@ -245,15 +255,16 @@ angular.module(MODULE_NAME, [])
                         }
                     }
 
-                    vm.removeNode(vm.node);
+                    vm.removeNode(node);
 
                     angular.element(document.querySelector('#' + event.target.id))
                         .append(angular.element('<div/>').attr({ 'class': 'arrow-down', 'id': event.target.id }))
                         .css('border', '2px solid #3579DC');
-                    if (vm.node.level in this.overflowRecord) {
-                        this.overflowRecord[vm.node.level].memoryNode = event.target.id;
+
+                    if (node.level in this.overflowRecord) {
+                        this.overflowRecord[node.level].memoryNode = event.target.id;
                     }
-                    vm.generateNode(vm.node.children, vm.node.level + 1, vm.node);
+                    vm.generateNode(node.children, node.level + 1, node);
                 }
             }
 
@@ -292,7 +303,14 @@ angular.module(MODULE_NAME, [])
             }
         }
 
-        vm.showRight = function(event) {
+        vm.checkForExpandedNode = function(level) {
+            var el = angular.element(document.querySelector('.appx#level' + (level) + ' > .card > .arrow-down'));
+            if (el[0] != undefined) {
+                return el[0].id;
+            } else return null;
+        }
+
+        vm.showRightNodes = function(event) {
             // insert nodes
             var level = event.target.id;
 
@@ -324,48 +342,7 @@ angular.module(MODULE_NAME, [])
                 else return 0;
             })
 
-
-            for (var i = 0; i < object.length; i++) {
-
-                var id = object[i].id;
-                var wrap = vm.wrap(id);
-                var team = utils.team(id, object[i].teamName, object[i].immediateEmployeeCount);
-                var name = utils.name(id, object[i].name);
-                var designation = utils.designation(id, object[i].designation);
-                var infoRow = utils.infoRow(id);
-                var totalEmployee = utils.totalEmployee(id);
-                var totalImg = utils.totalImg(id);
-                var totalEmployeeCount = utils.totalEmployeeCount(id, object[i].totalEmployeeCount);
-                var immediateEmployee = utils.immediateEmployee(id);
-                var immediateImg = utils.immediateImg(id);
-                var immediateEmployeeCount = utils.immediateEmployeeCount(id, object[i].immediateEmployeeCount)
-                var arrowUp = utils.arrowUp(id);
-
-                immediateEmployee
-                    .append(immediateImg)
-                    .append(immediateEmployeeCount);
-
-                infoRow
-                    .append(totalEmployee
-                        .append(totalImg)
-                        .append(totalEmployeeCount))
-                    .append(immediateEmployee
-                        .append(immediateImg)
-                        .append(immediateEmployeeCount));
-
-                div
-                    .append(
-                        $compile(
-                            wrap
-                            .append(arrowUp)
-                            .append(team)
-                            .append(name)
-                            .append(designation)
-                            .append(infoRow)
-                        )($scope));
-
-            }
-            //remove nodes
+            //remove current nodes
             for (var i = 0; i < nextStart; i++) {
                 var id = '#' + this.overflowRecord[level].data.children[i].id;
                 var myEl = angular.element(document.querySelector(id));
@@ -374,25 +351,21 @@ angular.module(MODULE_NAME, [])
                 }
 
             }
-
-            angular.element(document.querySelector('#' + this.overflowRecord[level].memoryNode))
-                .append(angular.element('<div/>').attr({ 'class': 'arrow-down', 'id': this.overflowRecord[level].memoryNode }))
-                .css('border', '2px solid #3579DC');
-
+            //add next nodes
+            vm.renderDom(object, div, level, false);
+            //disable arrow if end nodes are displayed
             if (this.overflowRecord[level].displayRange.end == this.overflowRecord[level].data.children.length - 1) {
                 angular.element(document.querySelector('.appx#level' + level + ' > .arrow-right')).addClass('arrow-disable');
             }
 
+            //add down arrow to the old parent node
+            angular.element(document.querySelector('#' + this.overflowRecord[level].memoryNode))
+                .append(angular.element('<div/>').attr({ 'class': 'arrow-down', 'id': this.overflowRecord[level].memoryNode }))
+                .css('border', '2px solid #3579DC');
+
         };
 
-        vm.checkForExpandedNode = function(level) {
-            var el = angular.element(document.querySelector('.appx#level' + (level) + ' > .card > .arrow-down'));
-            if (el[0] != undefined) {
-                return el[0].id;
-            } else return null;
-        }
-
-        vm.showLeft = function(event) {
+        vm.showLeftNodes = function(event) {
             // insert nodes
             var level = event.target.id;
             if (this.overflowRecord[level].displayRange.start == 0) return;
@@ -421,48 +394,7 @@ angular.module(MODULE_NAME, [])
                 else return 0;
             })
 
-
-            for (var i = 0; i < object.length; i++) {
-
-                var id = object[i].id;
-                var wrap = vm.wrap(id);
-                var team = utils.team(id, object[i].teamName, object[i].immediateEmployeeCount);
-                var name = utils.name(id, object[i].name);
-                var designation = utils.designation(id, object[i].designation);
-                var infoRow = utils.infoRow(id);
-                var totalEmployee = utils.totalEmployee(id);
-                var totalImg = utils.totalImg(id);
-                var totalEmployeeCount = utils.totalEmployeeCount(id, object[i].totalEmployeeCount);
-                var immediateEmployee = utils.immediateEmployee(id);
-                var immediateImg = utils.immediateImg(id);
-                var immediateEmployeeCount = utils.immediateEmployeeCount(id, object[i].immediateEmployeeCount)
-                var arrowUp = utils.arrowUp(id);
-
-                immediateEmployee
-                    .append(immediateImg)
-                    .append(immediateEmployeeCount);
-
-                infoRow
-                    .append(totalEmployee
-                        .append(totalImg)
-                        .append(totalEmployeeCount))
-                    .append(immediateEmployee
-                        .append(immediateImg)
-                        .append(immediateEmployeeCount));
-
-                div
-                    .append(
-                        $compile(
-                            wrap
-                            .append(arrowUp)
-                            .append(team)
-                            .append(name)
-                            .append(designation)
-                            .append(infoRow)
-                        )($scope));
-
-            }
-            //remove nodes
+            //remove current nodes
             for (var i = prevEnd + 1; i < this.overflowRecord[level].data.children.length; i++) {
                 var id = '#' + this.overflowRecord[level].data.children[i].id;
                 var myEl = angular.element(document.querySelector(id));
@@ -471,7 +403,9 @@ angular.module(MODULE_NAME, [])
                 }
 
             }
-            //disable arrow if starting
+            //add previous nodes
+            vm.renderDom(object, div, level, false);
+            //disable arrow if starting nodes are displayed
             if (this.overflowRecord[level].displayRange.start == 0) {
                 angular.element(document.querySelector('.appx#level' + level + ' > .arrow-left')).addClass('arrow-disable');
             }
