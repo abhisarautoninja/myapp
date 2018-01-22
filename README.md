@@ -27,21 +27,22 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
 ## JSON Guidelines -:
 
 ### Each employee detail must contain unique "id".
-* "id"
-    * **Compulsary field (Must be Unique for each employee)**
-* "name"
+
+* "id" - **Compulsary field**
+    * **Must be Unique for each employee**
+* "name" - Optional
 	* Optional
-* "teamName"
+* "teamName" - Optional
 	* Optional
-* "designation"
+* "designation" - Optional
 	* Optional
-* "children"
-	* **Compulsary field (If no children then give an empty array [ ])**
+* "children" - **Compulsary field**
+	* **If no children then give an empty array [ ]**
 
 ### Sample data  
 ```
-+ Each object must have ("id","children") rest other keys are optional.
-- All the "id" values must be unique.
+> Each object must have ("id","children") rest other keys are optional.
+> All the "id" values must be unique.
 ```
 ```
 [{
