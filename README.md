@@ -20,7 +20,7 @@ $ npm start
 $ go to [http://localhost:8080](http://localhost:8080) in your browser.
 ```
 ### Snapshot
-![Alt text](/src/app/public/img/snap.png?raw=true "Optional Title")
+![Alt text](https://raw.github.com/abhisarautoninja/myapp/master/src/public/img/snap.png?raw=true "Optional Title")
 
 ## Json file location  
 * [myapp/src/app/json.js](myapp/src/app/json.js)
