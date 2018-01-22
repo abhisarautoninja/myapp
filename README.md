@@ -28,9 +28,9 @@ go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 
 
-## Mandatory Conditions -:
+## JSON Guidelines -:
 
-# Each employee detail must contain unique "id".
+### Each employee detail must contain unique "id".
 * "id"
     * **Compulsary field**
 * "name"
@@ -41,4 +41,3 @@ go to [http://localhost:8080](http://localhost:8080) in your browser.
 	* Optional
 * "children"
 	* If no children then give an empty array [];
-
