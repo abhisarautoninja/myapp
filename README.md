@@ -231,24 +231,6 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
             "designation": "Engg.(access 1111)",
             "children": []
         }]
-    }, {
-        "id": "e16",
-        "name": "Ashia Misra",
-        "teamName": "Tech",
-        "designation": "Engg.(access 16)",
-        "children": [{
-            "id": "e161",
-            "name": "Aishwarya Thakur",
-            "teamName": "Tech",
-            "designation": "Engg.(access 111)",
-            "children": [{
-                "id": "e1611",
-                "name": "Baibhav Ganapuli",
-                "teamName": "Tech",
-                "designation": "Engg.(access 1111)",
-                "children": []
-            }]
-        }]
     }]
 }, {
     "id": "e2",
