@@ -22,7 +22,7 @@ $ npm start
 go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Json file location  
-* myapp/src/app/json.js
+* [myapp/src/app/json.js](myapp/src/app/json.js)
 
 ## Sample data  
 
@@ -32,7 +32,7 @@ go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ### Each employee detail must contain unique "id".
 * "id"
-    * **Compulsary field**
+    * **Unique and Compulsary field**
 * "name"
 	* Optional
 * "teamName"
@@ -40,4 +40,4 @@ go to [http://localhost:8080](http://localhost:8080) in your browser.
 * "designation"
 	* Optional
 * "children"
-	* If no children then give an empty array [];
+	* If no children then give an empty array [ ];
