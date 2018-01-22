@@ -30,6 +30,15 @@ angular.module(MODULE_NAME, [])
             if (obj.length >= 0) {
                 var totalSum = 0;
                 obj.forEach(function(d) {
+                    if(d.name == "" || !d.name){
+                        d.name= "--";
+                    }
+                    if(d.teamName == "" || !d.teamName){
+                        d.teamName= "--";
+                    }
+                    if(d.deignation == "" || !d.deignation){
+                        d.deignation= "--";
+                    }
                     d.immediateEmployeeCount = d.children.length;
                     d.totalEmployeeCount = d.children.length + addEmployeeSum(d.children);
                     totalSum += d.totalEmployeeCount;
@@ -215,8 +224,8 @@ angular.module(MODULE_NAME, [])
                 }
                 if (exists) {
                     vm.removeNode(node);
-                    angular.element(document.querySelector('#' + this.node.id)).css('border', 'none');
-                    angular.element(document.querySelector('.arrow-down#' + this.node.id)).remove();
+                    angular.element(document.querySelector('#' + node.id)).css('border', 'none');
+                    angular.element(document.querySelector('.arrow-down#' + node.id)).remove();
                     return true;
                 }
             }

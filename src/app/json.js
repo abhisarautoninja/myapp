@@ -106,106 +106,82 @@ export default [{
         "designation": "Engg.(access 15)",
         "children": []
     }, {
-        "id": "e188",
+        "id": "e16",
         "name": "Sanghvi Kashyap",
         "teamName": "Tech",
         "designation": "Engg.(access 15)",
         "children": []
     }, {
-        "id": "e157",
+        "id": "e17",
         "name": "Kalpit Singh",
         "teamName": "Tech",
         "designation": "Engg.(access 15)",
         "children": []
     }, {
-        "id": "e156",
+        "id": "e18",
         "name": "Dayal Kashyap",
         "teamName": "Tech",
         "designation": "Engg.(access 15)",
         "children": [{
-            "id": "e1611",
+            "id": "e181",
             "name": "Ruchi Kata",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
             "children": []
         }]
     }, {
-        "id": "e155",
-        "name": "Kabeer Kumar",
-        "teamName": "Tech",
-        "designation": "Engg.(access 15)",
-        "children": []
-    }, {
-        "id": "e154",
+        "id": "e19",
         "name": "Prerna Mishra",
         "teamName": "Tech",
         "designation": "Engg.(access 15)",
         "children": [{
-            "id": "e1541",
+            "id": "e191",
             "name": "Chitranjan Thakur",
             "teamName": "Tech",
             "designation": "Engg.(access 111)",
             "children": []
         }, {
-            "id": "e1542",
+            "id": "e192",
             "name": "Ibrahim Ganapuli",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
             "children": [{
-                "id": "e15421",
+                "id": "e1921",
                 "name": "Wasim Akram",
                 "teamName": "Tech",
                 "designation": "Engg.(access 1111)",
                 "children": []
             }]
         }, {
-            "id": "e1543",
+            "id": "e193",
             "name": "Maharaj Kumar",
             "teamName": "Tech",
             "designation": "Engg.(access 111)",
             "children": [{
-                "id": "e15431",
+                "id": "e1931",
                 "name": "Samuel Jackson",
                 "teamName": "Tech",
                 "designation": "Engg.(access 1111)",
                 "children": []
             }]
         }, {
-            "id": "e1544",
+            "id": "e194",
             "name": "Aadil Prasad",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
             "children": []
         }, {
-            "id": "e1545",
+            "id": "e195",
             "name": "Dhiraj Khan",
             "teamName": "Tech",
             "designation": "Engg.(access 111)",
             "children": []
         }, {
-            "id": "e1546",
+            "id": "e196",
             "name": "Deep Ram",
             "teamName": "Tech",
             "designation": "Engg.(access 1111)",
             "children": []
-        }]
-    }, {
-        "id": "e16",
-        "name": "Ashia Misra",
-        "teamName": "Tech",
-        "designation": "Engg.(access 16)",
-        "children": [{
-            "id": "e161",
-            "name": "Aishwarya Thakur",
-            "teamName": "Tech",
-            "designation": "Engg.(access 111)",
-            "children": [{
-                "id": "e1611",
-                "name": "Baibhav Ganapuli",
-                "teamName": "Tech",
-                "designation": "Engg.(access 1111)",
-                "children": []
-            }]
         }]
     }]
 }, {
