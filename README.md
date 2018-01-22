@@ -4,7 +4,6 @@
 
 ### Quick start
 
-> Clone/Download the repo 
 ```
 # clone the repo
 $ git clone https://github.com/abhisarautoninja/myapp.git 
@@ -17,22 +16,19 @@ $ npm install
 
 # start the server
 $ npm start
+
+$ go to [http://localhost:8080](http://localhost:8080) in your browser.
 ```
 
-go to [http://localhost:8080](http://localhost:8080) in your browser.
 
 ## Json file location  
 * [myapp/src/app/json.js](myapp/src/app/json.js)
-
-## Sample data  
-
-
 
 ## JSON Guidelines -:
 
 ### Each employee detail must contain unique "id".
 * "id"
-    * **Unique and Compulsary field**
+    * **Compulsary field (Must be Unique for each employee)**
 * "name"
 	* Optional
 * "teamName"
@@ -41,3 +37,5 @@ go to [http://localhost:8080](http://localhost:8080) in your browser.
 	* Optional
 * "children"
 	* If no children then give an empty array [ ];
+	
+## Sample data -: 
