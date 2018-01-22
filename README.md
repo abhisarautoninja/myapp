@@ -39,7 +39,7 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
 	* If no children then give an empty array [ ];
 
 ### Sample data  
-
+```
 [{
     "id": "e1",
     "name": "Dyal Joshi",
@@ -282,4 +282,5 @@ $ go to [http://localhost:8080](http://localhost:8080) in your browser.
         }]
     }]
 }]
+```
 
